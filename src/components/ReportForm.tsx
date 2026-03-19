@@ -83,14 +83,19 @@ const ReportForm = () => {
     setIsSubmitting(false);
     setUploadProgress("");
     
-    if (result === null && !import.meta.env.VITE_SUPABASE_URL) {
-      toast.error("Database connection missing. Setup requires `.env.local` configured.");
+    if (result === null) {
+      if (!import.meta.env.VITE_SUPABASE_URL) {
+        toast.error("Database connection missing. Setup requires `.env.local` configured.");
+      } else {
+        toast.error("Failed to submit report. Please check your connection and try again.");
+      }
       return;
     }
 
     toast.success("Report submitted successfully. We'll review it shortly.");
     setUsername("");
     setPlatform("");
+    setCategory("Scam / Fraud");
     setDescription("");
     setEmail("");
     setPhone("");

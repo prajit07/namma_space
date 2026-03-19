@@ -33,7 +33,16 @@ const AdminDashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterCategory, setFilterCategory] = useState("All");
 
-  const loadReports = async () => setReports(await getReports());
+  const loadReports = async () => {
+    try {
+      const fetchedReports = await getReports();
+      setReports(fetchedReports);
+    } catch (error) {
+      console.error("Failed to load reports:", error);
+      toast.error("Failed to load reports. Please try again.");
+      setReports([]); // Clear reports or keep previous state
+    }
+  };
 
   useEffect(() => {
     if (sessionStorage.getItem("admin_auth") !== "true") {
@@ -48,28 +57,30 @@ const AdminDashboard = () => {
     navigate("/prajit07");
   };
 
-  const totalReports = reports.reduce((sum, r) => sum + r.reportCount, 0);
+  const totalReports = reports.reduce((sum, r) => sum + (r.reportCount || 1), 0);
   const confirmedCount = reports.filter((r) => r.status === "Confirmed").length;
   const underReviewCount = reports.filter((r) => r.status === "Under Review" || r.status === "Pending Review").length;
 
   // Derive platform chart data
   const platformMap = new Map<string, number>();
-  reports.forEach((r) => platformMap.set(r.platform, (platformMap.get(r.platform) || 0) + r.reportCount));
+  reports.forEach((r) => platformMap.set(r.platform, (platformMap.get(r.platform) || 0) + (r.reportCount || 1)));
   const platformData = Array.from(platformMap, ([name, reports]) => ({ name, reports })).sort((a, b) => b.reports - a.reports);
 
   // Derive category chart data
   const categoryMap = new Map<string, number>();
-  reports.forEach((r) => categoryMap.set(r.category, (categoryMap.get(r.category) || 0) + r.reportCount));
+  reports.forEach((r) => categoryMap.set(r.category, (categoryMap.get(r.category) || 0) + (r.reportCount || 1)));
   const categoryData = Array.from(categoryMap, ([name, value]) => ({ name, value, color: CATEGORY_COLORS[name] || "hsl(210, 10%, 60%)" }));
 
   // Derive trend data from dates
   const dateMap = new Map<string, number>();
-  reports.forEach((r) => dateMap.set(r.date, (dateMap.get(r.date) || 0) + r.reportCount));
+  reports.forEach((r) => dateMap.set(r.date, (dateMap.get(r.date) || 0) + (r.reportCount || 1)));
   const trendData = Array.from(dateMap, ([date, reports]) => ({ date, reports })).sort((a, b) => a.date.localeCompare(b.date)).slice(-8);
 
   const filteredReports = reports.filter((report) => {
-    const matchesSearch = report.username.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                         report.platform.toLowerCase().includes(searchTerm.toLowerCase());
+    const username = report.username || "";
+    const platform = report.platform || "";
+    const matchesSearch = username.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                         platform.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = filterCategory === "All" || report.category === filterCategory;
     return matchesSearch && matchesCategory;
   });
