@@ -12,6 +12,7 @@ export interface Report {
   isAnonymous: boolean;
   email?: string;
   phone?: string;
+  evidence_urls?: string[];
   created_at?: string;
 }
 
@@ -63,6 +64,7 @@ export async function addReport(report: Omit<Report, "id" | "status" | "reportCo
         is_anonymous: report.isAnonymous,
         email: report.email,
         phone: report.phone,
+        evidence_urls: report.evidence_urls || [],
       }
     ])
     .select()

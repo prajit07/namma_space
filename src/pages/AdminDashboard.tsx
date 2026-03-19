@@ -182,6 +182,7 @@ const AdminDashboard = () => {
                   <TableHead>Platform</TableHead>
                   <TableHead>Category</TableHead>
                   <TableHead>Reports</TableHead>
+                  <TableHead>Evidence</TableHead>
                   <TableHead>Status</TableHead>
                   <TableHead>Date</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
@@ -194,6 +195,25 @@ const AdminDashboard = () => {
                     <TableCell>{report.platform}</TableCell>
                     <TableCell>{report.category}</TableCell>
                     <TableCell className="font-semibold">{report.reportCount}</TableCell>
+                    <TableCell>
+                      {report.evidence_urls && report.evidence_urls.length > 0 ? (
+                        <div className="flex flex-col gap-1">
+                          {report.evidence_urls.map((url, i) => (
+                            <a
+                              key={i}
+                              href={url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-xs text-blue-500 hover:underline flex items-center gap-1"
+                            >
+                              <FileText className="w-3 h-3" /> File {i + 1}
+                            </a>
+                          ))}
+                        </div>
+                      ) : (
+                        <span className="text-xs text-muted-foreground italic">None</span>
+                      )}
+                    </TableCell>
                     <TableCell>
                       <span className={`px-2 py-1 rounded-full text-xs font-medium border ${statusColor[report.status] || statusColor["Under Review"]}`}>
                         {report.status}

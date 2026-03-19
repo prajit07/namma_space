@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 import { addReport } from "@/lib/reportStore";
+import { supabase } from "@/lib/supabase";
 
 const ReportForm = () => {
   const [isAnonymous, setIsAnonymous] = useState(true);
@@ -18,19 +19,54 @@ const ReportForm = () => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState("");
+  const [actualFiles, setActualFiles] = useState<File[]>([]);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    if (files) {
-      const fileNames = Array.from(files).map(f => f.name);
-      setUploadedFiles(prev => [...prev, ...fileNames]);
-      toast.success(`${files.length} file(s) uploaded`);
+    if (files && files.length > 0) {
+      const newFiles = Array.from(files);
+      setActualFiles(prev => [...prev, ...newFiles]);
+      setUploadedFiles(prev => [...prev, ...newFiles.map(f => f.name)]);
+      toast.success(`${files.length} file(s) selected`);
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setUploadProgress("Uploading evidence...");
+
+    // Upload files to Supabase Storage first
+    const evidenceUrls: string[] = [];
+    if (actualFiles.length > 0 && import.meta.env.VITE_SUPABASE_URL) {
+      for (const file of actualFiles) {
+        // Create a unique filename
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`;
+        const filePath = `reports/${fileName}`;
+
+        const { error: uploadError } = await supabase.storage
+          .from('evidence')
+          .upload(filePath, file);
+
+        if (uploadError) {
+          console.error("Upload error:", uploadError);
+          toast.error(`Failed to upload ${file.name}`);
+        } else {
+          // Get public URL
+          const { data: publicUrlData } = supabase.storage
+            .from('evidence')
+            .getPublicUrl(filePath);
+          
+          if (publicUrlData) {
+            evidenceUrls.push(publicUrlData.publicUrl);
+          }
+        }
+      }
+    }
+
+    setUploadProgress("Submitting report...");
     
     const result = await addReport({
       username: username.startsWith("@") ? username : `@${username}`,
@@ -40,9 +76,11 @@ const ReportForm = () => {
       isAnonymous,
       email: isAnonymous ? undefined : email,
       phone: isAnonymous ? undefined : phone,
+      evidence_urls: evidenceUrls,
     });
     
     setIsSubmitting(false);
+    setUploadProgress("");
     
     if (result === null && !import.meta.env.VITE_SUPABASE_URL) {
       toast.error("Database connection missing. Setup requires `.env.local` configured.");
@@ -56,6 +94,7 @@ const ReportForm = () => {
     setEmail("");
     setPhone("");
     setUploadedFiles([]);
+    setActualFiles([]);
   };
 
   return (
@@ -152,7 +191,7 @@ const ReportForm = () => {
 
               <Button type="submit" disabled={isSubmitting} size="lg" className="w-full accent-gradient text-accent-foreground h-14 text-lg font-semibold">
                 <Send className="mr-2 w-5 h-5" />
-                {isSubmitting ? "Submitting..." : "Submit Report"}
+                {isSubmitting ? uploadProgress || "Submitting..." : "Submit Report"}
               </Button>
 
               <p className="text-xs text-muted-foreground text-center">
