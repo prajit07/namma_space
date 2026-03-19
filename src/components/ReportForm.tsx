@@ -22,6 +22,7 @@ const ReportForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [uploadProgress, setUploadProgress] = useState("");
   const [actualFiles, setActualFiles] = useState<File[]>([]);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -91,6 +92,7 @@ const ReportForm = () => {
         setPhone("");
         setUploadedFiles([]);
         setActualFiles([]);
+        setIsSubmitted(true);
       } else if (!import.meta.env.VITE_SUPABASE_URL) {
         toast.error("Database connection missing. Setup requires `.env.local` configured.");
       }
@@ -102,6 +104,54 @@ const ReportForm = () => {
       setUploadProgress("");
     }
   };
+
+  if (isSubmitted) {
+    return (
+      <section id="report-form" className="py-24 bg-background">
+        <div className="container">
+          <div className="max-w-xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="bg-card rounded-2xl p-12 text-center card-shadow border border-border"
+            >
+              <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-8">
+                <Shield className="w-10 h-10" />
+              </div>
+              <h2 className="font-display text-3xl font-bold text-foreground mb-4">
+                Thank You for Reporting
+              </h2>
+              <p className="text-muted-foreground text-lg mb-8">
+                Your report has been successfully submitted and is now under review by our safety team. Together, we can make the community safer.
+              </p>
+              <div className="space-y-4">
+                <div className="p-4 bg-secondary/50 rounded-xl text-left border border-border">
+                  <p className="text-sm font-medium text-foreground mb-1">What Happens Next?</p>
+                  <ul className="text-sm text-muted-foreground space-y-2">
+                    <li className="flex items-start gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 shrink-0" />
+                      <span>Our team will verify the details of your report.</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-accent mt-1.5 shrink-0" />
+                      <span>Verified malicious accounts will be added to the Awareness Feed.</span>
+                    </li>
+                  </ul>
+                </div>
+                <Button 
+                  onClick={() => setIsSubmitted(false)} 
+                  variant="outline" 
+                  className="w-full h-12"
+                >
+                  Submit Another Report
+                </Button>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="report-form" className="py-24 bg-background">
