@@ -6,11 +6,15 @@ import ReportForm from "@/components/ReportForm";
 import CyberSafetyTips from "@/components/CyberSafetyTips";
 import ResourcesSection from "@/components/ResourcesSection";
 import Footer from "@/components/Footer";
+import SafetyAlertTicker from "@/components/SafetyAlertTicker";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
+      <div className="pt-20">
+        <SafetyAlertTicker />
+      </div>
       <main>
         <HeroSection />
         <section id="workflow">
