@@ -37,10 +37,9 @@ const AdminDashboard = () => {
     try {
       const fetchedReports = await getReports();
       setReports(fetchedReports);
-    } catch (error) {
-      console.error("Failed to load reports:", error);
-      toast.error("Failed to load reports. Please try again.");
-      setReports([]); // Clear reports or keep previous state
+    } catch (error: any) {
+      console.error("Dashboard Load Error:", error);
+      toast.error(`Failed to load reports: ${error.message || 'Unknown error'}`);
     }
   };
 
@@ -289,9 +288,13 @@ const AdminDashboard = () => {
                             variant="ghost"
                             className="h-8 px-2 text-green-600 hover:text-green-700 hover:bg-green-50"
                             onClick={async () => {
-                              await updateReportStatus(report.id, "Confirmed");
-                              await loadReports();
-                              toast.success(`${report.username} confirmed`);
+                              try {
+                                await updateReportStatus(report.id, "Confirmed");
+                                await loadReports();
+                                toast.success(`${report.username} confirmed`);
+                              } catch (err: any) {
+                                toast.error(`Failed to confirm: ${err.message}`);
+                              }
                             }}
                           >
                             <CheckCircle className="w-4 h-4 mr-1" /> Approve
@@ -303,9 +306,13 @@ const AdminDashboard = () => {
                             variant="ghost"
                             className="h-8 px-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
                             onClick={async () => {
-                              await updateReportStatus(report.id, "Dismissed");
-                              await loadReports();
-                              toast.info(`${report.username} dismissed`);
+                              try {
+                                await updateReportStatus(report.id, "Dismissed");
+                                await loadReports();
+                                toast.info(`${report.username} dismissed`);
+                              } catch (err: any) {
+                                toast.error(`Failed to dismiss: ${err.message}`);
+                              }
                             }}
                           >
                             <XCircle className="w-4 h-4 mr-1" /> Dismiss
@@ -317,9 +324,13 @@ const AdminDashboard = () => {
                             variant="ghost"
                             className="h-8 px-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
                             onClick={async () => {
-                              await updateReportStatus(report.id, "Pending Review");
-                              await loadReports();
-                              toast.info(`${report.username} reverted to pending`);
+                              try {
+                                await updateReportStatus(report.id, "Pending Review");
+                                await loadReports();
+                                toast.info(`${report.username} reverted to pending`);
+                              } catch (err: any) {
+                                toast.error(`Failed to revert: ${err.message}`);
+                              }
                             }}
                           >
                             <Undo2 className="w-4 h-4 mr-1" /> Revert

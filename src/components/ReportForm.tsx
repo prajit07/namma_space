@@ -69,38 +69,38 @@ const ReportForm = () => {
 
     setUploadProgress("Submitting report...");
     
-    const result = await addReport({
-      username: username.startsWith("@") ? username : `@${username}`,
-      platform,
-      category,
-      description,
-      isAnonymous,
-      email: isAnonymous ? undefined : email,
-      phone: isAnonymous ? undefined : phone,
-      evidence_urls: evidenceUrls,
-    });
-    
-    setIsSubmitting(false);
-    setUploadProgress("");
-    
-    if (result === null) {
-      if (!import.meta.env.VITE_SUPABASE_URL) {
+    try {
+      const result = await addReport({
+        username: username.startsWith("@") ? username : `@${username}`,
+        platform,
+        category,
+        description,
+        isAnonymous,
+        email: isAnonymous ? undefined : email,
+        phone: isAnonymous ? undefined : phone,
+        evidence_urls: evidenceUrls,
+      });
+      
+      if (result) {
+        toast.success("Report submitted successfully. We'll review it shortly.");
+        setUsername("");
+        setPlatform("");
+        setCategory("Scam / Fraud");
+        setDescription("");
+        setEmail("");
+        setPhone("");
+        setUploadedFiles([]);
+        setActualFiles([]);
+      } else if (!import.meta.env.VITE_SUPABASE_URL) {
         toast.error("Database connection missing. Setup requires `.env.local` configured.");
-      } else {
-        toast.error("Failed to submit report. Please check your connection and try again.");
       }
-      return;
+    } catch (error: any) {
+      console.error("Submission error:", error);
+      toast.error(`Failed to submit report: ${error.message || "Unknown error"}`);
+    } finally {
+      setIsSubmitting(false);
+      setUploadProgress("");
     }
-
-    toast.success("Report submitted successfully. We'll review it shortly.");
-    setUsername("");
-    setPlatform("");
-    setCategory("Scam / Fraud");
-    setDescription("");
-    setEmail("");
-    setPhone("");
-    setUploadedFiles([]);
-    setActualFiles([]);
   };
 
   return (

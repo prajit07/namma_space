@@ -16,14 +16,10 @@ export interface Report {
   created_at?: string;
 }
 
-// Optional: if no Supabase URL is provided, we can fallback to mock data initially
-// But since this is a real-life app structure, we will expect the database to be connected.
-
 /**
  * Fetch all reports from Supabase.
  */
 export async function getReports(): Promise<Report[]> {
-  // If no env variables, return empty (prevents crashing during setup)
   if (!import.meta.env.VITE_SUPABASE_URL) return [];
   
   const { data, error } = await supabase
@@ -33,10 +29,9 @@ export async function getReports(): Promise<Report[]> {
 
   if (error) {
     console.error("Error fetching reports:", error);
-    return [];
+    throw error;
   }
   
-  // Format Supabase camelCase/snake_case mapping if needed
   return (data || []).map((row) => ({
     ...row,
     reportCount: row.report_count ?? 1,
@@ -49,7 +44,7 @@ export async function getReports(): Promise<Report[]> {
  */
 export async function addReport(report: Omit<Report, "id" | "status" | "reportCount" | "date" | "created_at">): Promise<Report | null> {
   if (!import.meta.env.VITE_SUPABASE_URL) {
-    console.warn("Supabase not configured. Setup .env.local to save reports.");
+    console.warn("Supabase not configured.");
     return null;
   }
 
@@ -71,8 +66,8 @@ export async function addReport(report: Omit<Report, "id" | "status" | "reportCo
     .single();
 
   if (error) {
-    console.error("Error adding report:", error);
-    return null;
+    console.error("DB Error adding report:", error);
+    throw error;
   }
   return data as Report;
 }
@@ -90,7 +85,7 @@ export async function updateReportStatus(id: number, status: string): Promise<bo
 
   if (error) {
     console.error("Error updating report status:", error);
-    return false;
+    throw error;
   }
   return true;
 }
@@ -109,7 +104,7 @@ export async function getConfirmedReports(): Promise<Report[]> {
 
   if (error) {
     console.error("Error fetching confirmed reports:", error);
-    return [];
+    throw error;
   }
   
   return (data || []).map((row) => ({
@@ -128,11 +123,11 @@ export async function clearAllReports(): Promise<boolean> {
   const { error } = await supabase
     .from('reports')
     .delete()
-    .neq('id', 0); // Delete all rows where id != 0 (standard way to delete all in Supabase)
+    .neq('id', 0);
 
   if (error) {
     console.error("Error clearing reports:", error);
-    return false;
+    throw error;
   }
   return true;
 }
