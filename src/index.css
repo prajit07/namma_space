@@ -1,126 +1,95 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Namma Space - Digital Safety Platform Design System */
-
 @layer base {
   :root {
-    /* Slate/Navy base with teal accent - trust and safety focused */
-    --background: 210 20% 98%;
-    --foreground: 222 47% 11%;
+    --background: 0 0% 98%;
+    --foreground: 0 0% 0%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
+    --card-foreground: 0 0% 0%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
+    --popover-foreground: 0 0% 0%;
 
-    /* Deep navy primary */
-    --primary: 222 47% 20%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 24 100% 50%; /* Vibrant Orange */
+    --primary-foreground: 0 0% 100%;
 
-    /* Light slate secondary */
-    --secondary: 210 20% 94%;
-    --secondary-foreground: 222 47% 20%;
+    --secondary: 48 100% 50%; /* Safety Yellow */
+    --secondary-foreground: 0 0% 0%;
 
-    --muted: 210 20% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 0 0% 90%;
+    --muted-foreground: 0 0% 40%;
 
-    /* Teal accent for trust */
-    --accent: 174 58% 39%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 142 76% 50%; /* Safety Green */
+    --accent-foreground: 0 0% 0%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 100% 50%; /* Pure Red */
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
-    --ring: 174 58% 39%;
+    --border: 0 0% 0%;
+    --input: 0 0% 0%;
+    --ring: 24 100% 50%;
 
-    --radius: 0.75rem;
+    --radius: 0px;
 
-    /* Custom tokens */
-    --gradient-hero: linear-gradient(135deg, hsl(222 47% 15%) 0%, hsl(222 47% 25%) 50%, hsl(200 47% 20%) 100%);
-    --gradient-accent: linear-gradient(135deg, hsl(174 58% 39%) 0%, hsl(180 50% 45%) 100%);
-    --shadow-card: 0 4px 24px -4px hsl(222 47% 11% / 0.08);
-    --shadow-elevated: 0 20px 40px -12px hsl(222 47% 11% / 0.15);
-
-    /* Safety status colors */
-    --success: 142 76% 36%;
-    --warning: 38 92% 50%;
-    --danger: 0 84% 60%;
+    /* NeoBrutalist custom tokens */
+    --brutalist-shadow: 4px 4px 0px 0px #000000;
+    --brutalist-shadow-lg: 8px 8px 0px 0px #000000;
+    --brutalist-border: 2px solid #000000;
+    --brutalist-border-thick: 4px solid #000000;
   }
 
   .dark {
-    --background: 222 47% 8%;
-    --foreground: 210 40% 98%;
+    --background: 0 0% 10%;
+    --foreground: 0 0% 100%;
 
-    --card: 222 47% 11%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 15%;
+    --card-foreground: 0 0% 100%;
 
-    --popover: 222 47% 11%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 174 58% 45%;
-    --primary-foreground: 222 47% 11%;
-
-    --secondary: 217 33% 17%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 65%;
-
-    --accent: 174 58% 45%;
-    --accent-foreground: 222 47% 11%;
-
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217 33% 17%;
-    --input: 217 33% 17%;
-    --ring: 174 58% 45%;
+    --border: 0 0% 100%;
+    --input: 0 0% 100%;
+    
+    --brutalist-shadow: 4px 4px 0px 0px #ffffff;
+    --brutalist-shadow-lg: 8px 8px 0px 0px #ffffff;
   }
 }
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-foreground;
   }
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Open Sans', system-ui, sans-serif;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Open Sans', system-ui, sans-serif;
+    @apply font-bold uppercase tracking-tight;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
   }
 }
 
 @layer components {
-  .hero-gradient {
-    background: var(--gradient-hero);
+  .brutalist-card {
+    @apply bg-card border-2 border-foreground;
+    box-shadow: var(--brutalist-shadow);
   }
 
-  .accent-gradient {
-    background: var(--gradient-accent);
+  .brutalist-button {
+    @apply border-2 border-foreground px-6 py-2 font-bold transition-all active:translate-x-[2px] active:translate-y-[2px] active:shadow-none;
+    box-shadow: var(--brutalist-shadow);
   }
 
-  .card-shadow {
-    box-shadow: var(--shadow-card);
+  .brutalist-input {
+    @apply border-2 border-foreground bg-background px-4 py-2 font-medium focus:ring-0 focus:outline-none;
   }
-
-  .elevated-shadow {
-    box-shadow: var(--shadow-elevated);
-  }
-
-  .text-gradient {
-    background: var(--gradient-accent);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
+  
+  .safety-orange { @apply bg-[#ff5c00] text-white; }
+  .safety-yellow { @apply bg-[#ffd700] text-black; }
+  .safety-green  { @apply bg-[#00ff00] text-black; }
 }
