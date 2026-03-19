@@ -48,20 +48,23 @@ export async function addReport(report: Omit<Report, "id" | "status" | "reportCo
     return null;
   }
 
+  const insertData: any = {
+    username: report.username,
+    platform: report.platform,
+    category: report.category,
+    description: report.description,
+    is_anonymous: report.isAnonymous,
+    email: report.email,
+    phone: report.phone,
+  };
+
+  if (report.evidence_urls && report.evidence_urls.length > 0) {
+    insertData.evidence_urls = report.evidence_urls;
+  }
+
   const { data, error } = await supabase
     .from('reports')
-    .insert([
-      {
-        username: report.username,
-        platform: report.platform,
-        category: report.category,
-        description: report.description,
-        is_anonymous: report.isAnonymous,
-        email: report.email,
-        phone: report.phone,
-        evidence_urls: report.evidence_urls || [],
-      }
-    ])
+    .insert([insertData])
     .select()
     .single();
 

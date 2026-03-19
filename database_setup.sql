@@ -12,6 +12,7 @@ CREATE TABLE public.reports (
     is_anonymous BOOLEAN NOT NULL DEFAULT true,
     email TEXT,
     phone TEXT,
+    evidence_urls TEXT[] DEFAULT '{}',
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
