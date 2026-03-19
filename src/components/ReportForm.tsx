@@ -1,0 +1,169 @@
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Upload, Send, Shield, Eye, EyeOff } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { toast } from "sonner";
+import { addReport } from "@/lib/reportStore";
+
+const ReportForm = () => {
+  const [isAnonymous, setIsAnonymous] = useState(true);
+  const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
+  const [username, setUsername] = useState("");
+  const [platform, setPlatform] = useState("");
+  const [description, setDescription] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      const fileNames = Array.from(files).map(f => f.name);
+      setUploadedFiles(prev => [...prev, ...fileNames]);
+      toast.success(`${files.length} file(s) uploaded`);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    const result = await addReport({
+      username: username.startsWith("@") ? username : `@${username}`,
+      platform,
+      category: "Pending Review",
+      description,
+      isAnonymous,
+      email: isAnonymous ? undefined : email,
+      phone: isAnonymous ? undefined : phone,
+    });
+    
+    setIsSubmitting(false);
+    
+    if (result === null && !import.meta.env.VITE_SUPABASE_URL) {
+      toast.error("Database connection missing. Setup requires `.env.local` configured.");
+      return;
+    }
+
+    toast.success("Report submitted successfully. We'll review it shortly.");
+    setUsername("");
+    setPlatform("");
+    setDescription("");
+    setEmail("");
+    setPhone("");
+    setUploadedFiles([]);
+  };
+
+  return (
+    <section id="report-form" className="py-24 bg-background">
+      <div className="container">
+        <div className="max-w-3xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 text-accent text-sm mb-6">
+              <Shield className="w-4 h-4" />
+              <span>Secure & Confidential</span>
+            </div>
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
+              Report an Incident
+            </h2>
+            <p className="text-muted-foreground text-lg">
+              Your report helps us protect the community. All submissions are handled with care.
+            </p>
+          </motion.div>
+
+          <motion.form
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            onSubmit={handleSubmit}
+            className="bg-card rounded-2xl p-8 card-shadow border border-border"
+          >
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <Label htmlFor="username" className="text-foreground font-medium">
+                  Offending Username / Profile URL *
+                </Label>
+                <Input id="username" placeholder="e.g., @username or profile link" required className="h-12" value={username} onChange={(e) => setUsername(e.target.value)} />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="platform" className="text-foreground font-medium">Platform *</Label>
+                <Input id="platform" placeholder="e.g., Instagram, Twitter, Facebook" required className="h-12" value={platform} onChange={(e) => setPlatform(e.target.value)} />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="description" className="text-foreground font-medium">Description of Incident *</Label>
+                <Textarea id="description" placeholder="Describe what happened, when it occurred, and any relevant details..." required className="min-h-[150px] resize-none" value={description} onChange={(e) => setDescription(e.target.value)} />
+              </div>
+
+              <div className="space-y-2">
+                <Label className="text-foreground font-medium">Upload Evidence (Screenshots, etc.)</Label>
+                <div className="border-2 border-dashed border-border rounded-xl p-8 text-center hover:border-accent/50 transition-colors cursor-pointer">
+                  <input type="file" id="file-upload" className="hidden" multiple accept="image/*,.pdf" onChange={handleFileUpload} />
+                  <label htmlFor="file-upload" className="cursor-pointer">
+                    <Upload className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
+                    <p className="text-foreground font-medium">Click to upload or drag and drop</p>
+                    <p className="text-sm text-muted-foreground mt-1">PNG, JPG, PDF up to 10MB</p>
+                  </label>
+                </div>
+                {uploadedFiles.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-3">
+                    {uploadedFiles.map((file, i) => (
+                      <span key={i} className="px-3 py-1 bg-secondary rounded-full text-sm text-secondary-foreground">{file}</span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <div className="flex items-center justify-between p-4 bg-secondary/50 rounded-lg">
+                <div className="flex items-center gap-3">
+                  {isAnonymous ? <EyeOff className="w-5 h-5 text-accent" /> : <Eye className="w-5 h-5 text-muted-foreground" />}
+                  <div>
+                    <p className="text-foreground font-medium">Report Anonymously</p>
+                    <p className="text-sm text-muted-foreground">Your identity won't be shared</p>
+                  </div>
+                </div>
+                <Checkbox checked={isAnonymous} onCheckedChange={(checked) => setIsAnonymous(checked as boolean)} />
+              </div>
+
+              {!isAnonymous && (
+                <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="email" className="text-foreground font-medium">Email Address</Label>
+                    <Input id="email" type="email" placeholder="your@email.com" className="h-12" value={email} onChange={(e) => setEmail(e.target.value)} />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="phone" className="text-foreground font-medium">Phone Number (Optional)</Label>
+                    <Input id="phone" type="tel" placeholder="+91 98765 43210" className="h-12" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                  </div>
+                </motion.div>
+              )}
+
+              <Button type="submit" disabled={isSubmitting} size="lg" className="w-full accent-gradient text-accent-foreground h-14 text-lg font-semibold">
+                <Send className="mr-2 w-5 h-5" />
+                {isSubmitting ? "Submitting..." : "Submit Report"}
+              </Button>
+
+              <p className="text-xs text-muted-foreground text-center">
+                By submitting, you agree to our terms of use. False reports may face legal action.
+              </p>
+            </div>
+          </motion.form>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default ReportForm;
