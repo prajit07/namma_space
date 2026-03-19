@@ -8,31 +8,31 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-background border-b-4 border-foreground">
       <div className="container">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-lg accent-gradient flex items-center justify-center">
-              <Shield className="w-5 h-5 text-accent-foreground" />
+          <Link to="/" className="flex items-center gap-2 group">
+            <div className="w-12 h-12 border-2 border-foreground bg-primary flex items-center justify-center transition-all group-hover:-translate-x-1 group-hover:-translate-y-1 group-hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+              <Shield className="w-6 h-6 text-primary-foreground" />
             </div>
-            <span className="font-display text-xl font-bold text-foreground">
-              Namma Space
+            <span className="font-display text-2xl font-bold text-foreground">
+              NAMMA SPACE
             </span>
           </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8">
-            <a href="#workflow" className="text-muted-foreground hover:text-foreground transition-colors">
+            <a href="#workflow" className="font-bold uppercase tracking-tight hover:text-primary transition-colors">
               How It Works
             </a>
-            <a href="#safety-tips" className="text-muted-foreground hover:text-foreground transition-colors">
+            <a href="#safety-tips" className="font-bold uppercase tracking-tight hover:text-secondary transition-colors">
               Safety Guides
             </a>
-            <a href="#report-form" className="text-muted-foreground hover:text-foreground transition-colors">
+            <a href="#report-form" className="font-bold uppercase tracking-tight hover:text-destructive transition-colors">
               Report
             </a>
-            <a href="#resources" className="text-muted-foreground hover:text-foreground transition-colors">
+            <a href="#resources" className="font-bold uppercase tracking-tight hover:text-accent transition-colors">
               Resources
             </a>
           </nav>
@@ -40,16 +40,16 @@ const Header = () => {
           {/* CTA */}
           <div className="hidden md:block">
             <Button 
-              className="accent-gradient text-accent-foreground"
+              className="brutalist-button safety-orange"
               onClick={() => document.getElementById("report-form")?.scrollIntoView({ behavior: "smooth" })}
             >
-              Report Now
+              REPORT NOW
             </Button>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2"
+            className="md:hidden p-2 border-2 border-foreground bg-secondary"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? (
@@ -66,18 +66,18 @@ const Header = () => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="md:hidden py-4 border-t border-border"
+            className="md:hidden py-6 border-t-2 border-foreground bg-background"
           >
             <nav className="flex flex-col gap-4">
-              <a href="#workflow" className="text-foreground py-2" onClick={() => setIsMenuOpen(false)}>How It Works</a>
-              <a href="#safety-tips" className="text-foreground py-2" onClick={() => setIsMenuOpen(false)}>Safety Guides</a>
-              <a href="#report-form" className="text-foreground py-2" onClick={() => setIsMenuOpen(false)}>Report</a>
-              <a href="#resources" className="text-foreground py-2" onClick={() => setIsMenuOpen(false)}>Resources</a>
-              <Button className="accent-gradient text-accent-foreground mt-2" onClick={() => {
+              <a href="#workflow" className="font-bold uppercase py-2 border-b-2 border-muted" onClick={() => setIsMenuOpen(false)}>How It Works</a>
+              <a href="#safety-tips" className="font-bold uppercase py-2 border-b-2 border-muted" onClick={() => setIsMenuOpen(false)}>Safety Guides</a>
+              <a href="#report-form" className="font-bold uppercase py-2 border-b-2 border-muted" onClick={() => setIsMenuOpen(false)}>Report</a>
+              <a href="#resources" className="font-bold uppercase py-2 border-b-2 border-muted" onClick={() => setIsMenuOpen(false)}>Resources</a>
+              <Button className="brutalist-button safety-orange mt-4" onClick={() => {
                 setIsMenuOpen(false);
                 document.getElementById("report-form")?.scrollIntoView({ behavior: "smooth" });
               }}>
-                Report Now
+                REPORT NOW
               </Button>
             </nav>
           </motion.div>

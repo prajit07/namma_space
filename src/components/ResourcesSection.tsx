@@ -43,24 +43,24 @@ const resources = [
 
 const ResourcesSection = () => {
   return (
-    <section className="py-24 hero-gradient">
+    <section id="resources" className="py-24 bg-[#f0f0f0] border-b-4 border-foreground">
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-primary-foreground mb-4">
-            Emergency Resources
+          <h2 className="font-display text-5xl md:text-6xl font-black text-foreground mb-4 uppercase tracking-tighter">
+            EMERGENCY RESOURCES
           </h2>
-          <p className="text-primary-foreground/70 text-lg max-w-2xl mx-auto">
+          <p className="text-foreground font-bold text-lg max-w-2xl mx-auto uppercase tracking-tight">
             Get immediate help from official channels. These resources are available 24/7.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {resources.map((resource, index) => (
             <motion.div
               key={resource.title}
@@ -68,29 +68,28 @@ const ResourcesSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`rounded-xl p-6 ${
-                resource.highlight
-                  ? "bg-accent text-accent-foreground"
-                  : "bg-white/10 backdrop-blur-sm border border-white/20 text-primary-foreground"
+              className={`brutalist-card p-8 h-full transition-all hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] ${
+                resource.highlight ? "safety-green" : "bg-white"
               }`}
             >
-              <resource.icon className={`w-10 h-10 mb-4 ${resource.highlight ? "text-accent-foreground" : "text-accent"}`} />
-              <h3 className="font-display text-lg font-semibold mb-1">
+              <div className="w-14 h-14 border-2 border-foreground bg-white flex items-center justify-center mb-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                <resource.icon className="w-8 h-8 text-foreground" />
+              </div>
+              <h3 className="font-display text-lg font-black mb-1 uppercase tracking-tight">
                 {resource.title}
               </h3>
-              <p className="text-3xl font-display font-bold mb-2">
+              <p className="text-4xl font-black mb-4 uppercase leading-none">
                 {resource.value}
               </p>
-              <p className={`text-sm mb-4 ${resource.highlight ? "text-accent-foreground/80" : "text-primary-foreground/60"}`}>
+              <p className="text-sm font-bold opacity-80 mb-6 uppercase tracking-tight leading-tight">
                 {resource.description}
               </p>
               <Button
                 asChild
-                variant={resource.highlight ? "secondary" : "outline"}
-                className={`w-full ${!resource.highlight && "border-white/30 text-primary-foreground hover:bg-white/10"}`}
+                className={`w-full brutalist-button ${resource.highlight ? "bg-white text-black" : "safety-yellow"}`}
               >
                 <a href={resource.href} target="_blank" rel="noopener noreferrer">
-                  {resource.action}
+                  {resource.action.toUpperCase()}
                 </a>
               </Button>
             </motion.div>

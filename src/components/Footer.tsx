@@ -3,20 +3,20 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="bg-primary py-16">
+    <footer className="bg-black text-white py-20 border-t-8 border-foreground">
       <div className="container">
-        <div className="grid md:grid-cols-4 gap-8 mb-12">
+        <div className="grid md:grid-cols-4 gap-12 mb-16">
           {/* Brand */}
           <div className="md:col-span-2">
-            <a href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-lg accent-gradient flex items-center justify-center">
-                <Shield className="w-5 h-5 text-accent-foreground" />
+            <a href="/" className="flex items-center gap-3 mb-6 group">
+              <div className="w-12 h-12 border-2 border-white safety-orange flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(255,255,255,1)] transition-all group-hover:-translate-x-1 group-hover:-translate-y-1 group-hover:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)]">
+                <Shield className="w-6 h-6 text-black" />
               </div>
-              <span className="font-display text-xl font-bold text-primary-foreground">
-                Namma Space
+              <span className="font-display text-3xl font-black uppercase tracking-tighter">
+                NAMMA SPACE
               </span>
             </a>
-            <p className="text-primary-foreground/60 max-w-md">
+            <p className="text-white/60 font-bold max-w-md uppercase tracking-tight leading-tight">
               A community platform dedicated to digital safety and awareness. 
               Report online harassment, collect evidence, and protect the community.
             </p>
@@ -24,23 +24,23 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-display font-semibold text-primary-foreground mb-4">
-              Quick Links
+            <h4 className="font-display text-xl font-black mb-6 uppercase tracking-tight text-white border-b-2 border-white pb-2 inline-block">
+              QUICK LINKS
             </h4>
-            <ul className="space-y-2">
+            <ul className="space-y-3">
               <li>
-                <a href="#workflow" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors">
-                  How It Works
+                <a href="#workflow" className="text-white/60 hover:text-white font-bold uppercase tracking-tight transition-colors">
+                  HOW IT WORKS
                 </a>
               </li>
               <li>
-                <a href="#report-form" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors">
-                  Submit Report
+                <a href="#report-form" className="text-white/60 hover:text-white font-bold uppercase tracking-tight transition-colors">
+                  SUBMIT REPORT
                 </a>
               </li>
               <li>
-                <a href="#resources" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors">
-                  Resources
+                <a href="#resources" className="text-white/60 hover:text-white font-bold uppercase tracking-tight transition-colors">
+                  RESOURCES
                 </a>
               </li>
             </ul>
@@ -48,43 +48,43 @@ const Footer = () => {
 
           {/* Legal */}
           <div>
-            <h4 className="font-display font-semibold text-primary-foreground mb-4">
-              Legal
+            <h4 className="font-display text-xl font-black mb-6 uppercase tracking-tight text-white border-b-2 border-white pb-2 inline-block">
+              LEGAL
             </h4>
-            <ul className="space-y-2">
+            <ul className="space-y-3">
               <li>
-                <Link to="/privacy" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors">
-                  Privacy Policy
+                <Link to="/privacy" className="text-white/60 hover:text-white font-bold uppercase tracking-tight transition-colors">
+                  PRIVACY POLICY
                 </Link>
               </li>
               <li>
-                <Link to="/terms" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors">
-                  Terms of Use
+                <Link to="/terms" className="text-white/60 hover:text-white font-bold uppercase tracking-tight transition-colors">
+                  TERMS OF USE
                 </Link>
               </li>
               <li>
-                <Link to="/disclaimer" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors">
-                  Disclaimer
+                <Link to="/disclaimer" className="text-white/60 hover:text-white font-bold uppercase tracking-tight transition-colors">
+                  DISCLAIMER
                 </Link>
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="border-t border-primary-foreground/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-primary-foreground/40 text-sm">
-            © 2025 Namma Space | Digital Safety for All
+        <div className="border-t-2 border-white/20 pt-10 flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden">
+          <p className="text-white/40 text-xs font-black uppercase tracking-widest">
+            © 2025 NAMMA SPACE | DIGITAL SAFETY FOR ALL
           </p>
-          <p className="text-primary-foreground/40 text-sm flex items-center gap-1">
-            Made with <Heart className="w-4 h-4 text-accent" /> for a safer internet
+          <p className="text-white/40 text-xs font-black uppercase tracking-widest flex items-center gap-2">
+            MADE WITH <Heart className="w-4 h-4 text-destructive fill-current" /> FOR A SAFER INTERNET
           </p>
         </div>
 
-        <div className="mt-8 p-4 bg-primary-foreground/5 rounded-lg border border-primary-foreground/10">
-          <p className="text-xs text-primary-foreground/50 text-center">
-            <strong className="text-primary-foreground/70">Disclaimer:</strong> Namma Space is a community reporting portal 
-            and does not replace law enforcement agencies. Users are encouraged to follow official 
-            legal procedures for serious cyber incidents.
+        <div className="mt-12 p-6 border-2 border-white/20 bg-white/5">
+          <p className="text-[10px] text-white/40 font-bold uppercase tracking-widest leading-relaxed text-center">
+            <strong className="text-white/60">DISCLAIMER:</strong> NAMMA SPACE IS A COMMUNITY REPORTING PORTAL 
+            AND DOES NOT REPLACE LAW ENFORCEMENT AGENCIES. USERS ARE ENCOURAGED TO FOLLOW OFFICIAL 
+            LEGAL PROCEDURES FOR SERIOUS CYBER INCIDENTS.
           </p>
         </div>
       </div>

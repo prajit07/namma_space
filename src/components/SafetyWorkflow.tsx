@@ -30,24 +30,24 @@ const steps = [
 
 const SafetyWorkflow = () => {
   return (
-    <section className="py-24 bg-secondary/50">
+    <section id="workflow" className="py-24 bg-white border-b-4 border-foreground">
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Safety Workflow
+          <h2 className="font-display text-5xl md:text-6xl font-black text-foreground mb-4 uppercase tracking-tighter">
+            SAFETY WORKFLOW
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Follow these steps to protect yourself and report harmful online behavior effectively
+          <p className="text-foreground font-bold text-lg max-w-2xl mx-auto uppercase tracking-tight">
+            Follow these steps to protect yourself and report harmful behavior effectively
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-4 gap-8">
           {steps.map((step, index) => (
             <motion.div
               key={step.title}
@@ -55,28 +55,24 @@ const SafetyWorkflow = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="relative"
+              className="relative group"
             >
-              <div className="bg-card rounded-xl p-6 card-shadow h-full border border-border hover:elevated-shadow transition-shadow duration-300">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${step.color}`}>
-                    <step.icon className="w-6 h-6" />
+              <div className="brutalist-card p-8 h-full bg-white transition-all group-hover:-translate-x-1 group-hover:-translate-y-1 group-hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                <div className="flex items-center justify-between mb-6">
+                  <div className={`w-14 h-14 border-2 border-foreground flex items-center justify-center shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] ${step.color.replace('/10', '')}`}>
+                    <step.icon className="w-8 h-8" />
                   </div>
-                  <span className="text-3xl font-display font-bold text-muted-foreground/30">
+                  <span className="text-4xl font-black text-foreground/20">
                     {String(index + 1).padStart(2, '0')}
                   </span>
                 </div>
-                <h3 className="font-display text-xl font-semibold text-foreground mb-2">
+                <h3 className="font-display text-2xl font-black text-foreground mb-3 uppercase">
                   {step.title}
                 </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">
+                <p className="text-foreground/80 font-bold text-sm leading-tight uppercase tracking-tight">
                   {step.description}
                 </p>
               </div>
-
-              {index < steps.length - 1 && (
-                <div className="hidden md:block absolute top-1/2 -right-3 w-6 h-0.5 bg-border" />
-              )}
             </motion.div>
           ))}
         </div>

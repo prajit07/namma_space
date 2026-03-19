@@ -34,7 +34,7 @@ const tips = [
 
 const CyberSafetyTips = () => {
   return (
-    <section id="safety-tips" className="py-24 bg-secondary/30 border-y border-border">
+    <section id="safety-tips" className="py-24 bg-white border-b-4 border-foreground">
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -43,19 +43,19 @@ const CyberSafetyTips = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 text-accent text-sm mb-6">
+          <div className="inline-flex items-center gap-2 px-6 py-2 border-2 border-foreground bg-secondary font-bold uppercase text-sm mb-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <ShieldCheck className="w-4 h-4" />
-            <span>Education Hub</span>
+            <span>EDUCATION HUB</span>
           </div>
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Cyber Safety Guidelines
+          <h2 className="font-display text-5xl md:text-6xl font-black text-foreground mb-4 uppercase tracking-tighter">
+            CYBER SAFETY GUIDELINES
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Stay one step ahead of cyber threats. Keep these essential practices in mind while navigating the digital space.
+          <p className="text-foreground font-bold text-lg max-w-2xl mx-auto uppercase tracking-tight">
+            Stay one step ahead of cyber threats with essential digital practices
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {tips.map((tip, index) => (
             <motion.div
               key={tip.title}
@@ -63,15 +63,15 @@ const CyberSafetyTips = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="bg-card rounded-2xl p-8 card-shadow border border-border hover:elevated-shadow transition-all duration-300 group"
+              className="brutalist-card p-8 h-full bg-white transition-all hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] group"
             >
-              <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-6 transition-transform group-hover:-translate-y-1 ${tip.bg}`}>
-                <tip.icon className={`w-7 h-7 ${tip.color}`} />
+              <div className={`w-14 h-14 border-2 border-foreground flex items-center justify-center mb-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] ${tip.bg.replace('/10', '')}`}>
+                <tip.icon className="w-8 h-8 text-foreground" />
               </div>
-              <h3 className="font-display text-xl font-bold text-foreground mb-3">
+              <h3 className="font-display text-2xl font-black text-foreground mb-3 uppercase tracking-tight">
                 {tip.title}
               </h3>
-              <p className="text-muted-foreground leading-relaxed text-sm">
+              <p className="text-foreground/80 font-bold text-sm leading-tight uppercase tracking-tight">
                 {tip.description}
               </p>
             </motion.div>

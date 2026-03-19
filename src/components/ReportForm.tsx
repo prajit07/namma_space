@@ -154,7 +154,7 @@ const ReportForm = () => {
   }
 
   return (
-    <section id="report-form" className="py-24 bg-background">
+    <section id="report-form" className="py-24 bg-white border-b-4 border-foreground">
       <div className="container">
         <div className="max-w-3xl mx-auto">
           <motion.div
@@ -162,16 +162,16 @@ const ReportForm = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-12"
+            className="text-center mb-16"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/10 text-accent text-sm mb-6">
+            <div className="inline-flex items-center gap-2 px-6 py-2 border-2 border-foreground bg-primary text-white font-bold uppercase text-sm mb-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
               <Shield className="w-4 h-4" />
-              <span>Secure & Confidential</span>
+              <span>SECURE & CONFIDENTIAL</span>
             </div>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Report an Incident
+            <h2 className="font-display text-5xl md:text-6xl font-black text-foreground mb-4 uppercase tracking-tighter">
+              REPORT AN INCIDENT
             </h2>
-            <p className="text-muted-foreground text-lg">
+            <p className="text-foreground font-bold text-lg max-w-2xl mx-auto uppercase tracking-tight">
               Your report helps us protect the community. All submissions are handled with care.
             </p>
           </motion.div>
@@ -182,28 +182,28 @@ const ReportForm = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
             onSubmit={handleSubmit}
-            className="bg-card rounded-2xl p-8 card-shadow border border-border"
+            className="brutalist-card p-10 bg-white"
           >
-            <div className="space-y-6">
+            <div className="space-y-8">
               <div className="space-y-2">
-                <Label htmlFor="username" className="text-foreground font-medium">
+                <Label htmlFor="username" className="text-foreground font-black uppercase tracking-tight">
                   Offending Username / Profile URL *
                 </Label>
-                <Input id="username" placeholder="e.g., @username or profile link" required className="h-12" value={username} onChange={(e) => setUsername(e.target.value)} />
+                <Input id="username" placeholder="E.G., @USERNAME OR PROFILE LINK" required className="brutalist-input h-14 uppercase" value={username} onChange={(e) => setUsername(e.target.value)} />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="platform" className="text-foreground font-medium">Platform *</Label>
-                <Input id="platform" placeholder="e.g., Instagram, Twitter, Facebook" required className="h-12" value={platform} onChange={(e) => setPlatform(e.target.value)} />
+                <Label htmlFor="platform" className="text-foreground font-black uppercase tracking-tight">Platform *</Label>
+                <Input id="platform" placeholder="E.G., INSTAGRAM, TWITTER, FACEBOOK" required className="brutalist-input h-14 uppercase" value={platform} onChange={(e) => setPlatform(e.target.value)} />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="category" className="text-foreground font-medium">Category *</Label>
+                <Label htmlFor="category" className="text-foreground font-black uppercase tracking-tight">Category *</Label>
                 <select 
                   id="category" 
                   value={category} 
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full h-12 px-3 rounded-md border border-input bg-background text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                  className="w-full h-14 px-4 brutalist-input bg-background font-bold uppercase"
                 >
                   <option value="Scam / Fraud">Scam / Fraud</option>
                   <option value="Harassment">Harassment</option>
@@ -217,59 +217,65 @@ const ReportForm = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="description" className="text-foreground font-medium">Description of Incident *</Label>
-                <Textarea id="description" placeholder="Describe what happened, when it occurred, and any relevant details..." required className="min-h-[150px] resize-none" value={description} onChange={(e) => setDescription(e.target.value)} />
+                <Label htmlFor="description" className="text-foreground font-black uppercase tracking-tight">Description of Incident *</Label>
+                <Textarea id="description" placeholder="DESCRIBE WHAT HAPPENED, WHEN IT OCCURRED, AND ANY RELEVANT DETAILS..." required className="min-h-[150px] resize-none brutalist-input uppercase text-sm font-bold" value={description} onChange={(e) => setDescription(e.target.value)} />
               </div>
 
               <div className="space-y-2">
-                <Label className="text-foreground font-medium">Upload Evidence (Screenshots, etc.)</Label>
-                <div className="border-2 border-dashed border-border rounded-xl p-8 text-center hover:border-accent/50 transition-colors cursor-pointer">
+                <Label className="text-foreground font-black uppercase tracking-tight">Upload Evidence (Screenshots, etc.)</Label>
+                <div className="border-4 border-dashed border-foreground bg-[#f9f9f9] p-10 text-center cursor-pointer transition-all hover:bg-secondary/20">
                   <input type="file" id="file-upload" className="hidden" multiple accept="image/*,.pdf" onChange={handleFileUpload} />
                   <label htmlFor="file-upload" className="cursor-pointer">
-                    <Upload className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
-                    <p className="text-foreground font-medium">Click to upload or drag and drop</p>
-                    <p className="text-sm text-muted-foreground mt-1">PNG, JPG, PDF up to 10MB</p>
+                    <Upload className="w-12 h-12 text-foreground mx-auto mb-4" />
+                    <p className="text-foreground font-black uppercase tracking-tight">Click to upload or drag and drop</p>
+                    <p className="text-xs font-bold text-foreground/60 mt-1 uppercase">PNG, JPG, PDF UP TO 10MB</p>
                   </label>
                 </div>
                 {uploadedFiles.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mt-3">
+                  <div className="flex flex-wrap gap-2 mt-4">
                     {uploadedFiles.map((file, i) => (
-                      <span key={i} className="px-3 py-1 bg-secondary rounded-full text-sm text-secondary-foreground">{file}</span>
+                      <span key={i} className="px-4 py-2 border-2 border-foreground bg-secondary font-black text-xs uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">{file}</span>
                     ))}
                   </div>
                 )}
               </div>
 
-              <div className="flex items-center justify-between p-4 bg-secondary/50 rounded-lg">
-                <div className="flex items-center gap-3">
-                  {isAnonymous ? <EyeOff className="w-5 h-5 text-accent" /> : <Eye className="w-5 h-5 text-muted-foreground" />}
+              <div className="flex items-center justify-between p-6 bg-secondary border-2 border-foreground shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 border-2 border-foreground bg-white flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                    {isAnonymous ? <EyeOff className="w-6 h-6 text-foreground" /> : <Eye className="w-6 h-6 text-foreground" />}
+                  </div>
                   <div>
-                    <p className="text-foreground font-medium">Report Anonymously</p>
-                    <p className="text-sm text-muted-foreground">Your identity won't be shared</p>
+                    <p className="text-foreground font-black uppercase tracking-tight">Report Anonymously</p>
+                    <p className="text-xs font-bold text-foreground/60 uppercase">Your identity won't be shared</p>
                   </div>
                 </div>
-                <Checkbox checked={isAnonymous} onCheckedChange={(checked) => setIsAnonymous(checked as boolean)} />
+                <Checkbox 
+                  checked={isAnonymous} 
+                  onCheckedChange={(checked) => setIsAnonymous(checked as boolean)}
+                  className="w-8 h-8 border-2 border-foreground data-[state=checked]:bg-foreground data-[state=checked]:text-white"
+                />
               </div>
 
               {!isAnonymous && (
-                <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="space-y-4">
+                <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="space-y-6 pt-4">
                   <div className="space-y-2">
-                    <Label htmlFor="email" className="text-foreground font-medium">Email Address</Label>
-                    <Input id="email" type="email" placeholder="your@email.com" className="h-12" value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <Label htmlFor="email" className="text-foreground font-black uppercase tracking-tight">Email Address</Label>
+                    <Input id="email" type="email" placeholder="YOUR@EMAIL.COM" className="brutalist-input h-14 uppercase" value={email} onChange={(e) => setEmail(e.target.value)} />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="phone" className="text-foreground font-medium">Phone Number (Optional)</Label>
-                    <Input id="phone" type="tel" placeholder="+91 98765 43210" className="h-12" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                    <Label htmlFor="phone" className="text-foreground font-black uppercase tracking-tight">Phone Number (Optional)</Label>
+                    <Input id="phone" type="tel" placeholder="+91 98765 43210" className="brutalist-input h-14 uppercase" value={phone} onChange={(e) => setPhone(e.target.value)} />
                   </div>
                 </motion.div>
               )}
 
-              <Button type="submit" disabled={isSubmitting} size="lg" className="w-full accent-gradient text-accent-foreground h-14 text-lg font-semibold">
-                <Send className="mr-2 w-5 h-5" />
-                {isSubmitting ? uploadProgress || "Submitting..." : "Submit Report"}
+              <Button type="submit" disabled={isSubmitting} size="lg" className="w-full brutalist-button safety-orange h-16 text-xl">
+                <Send className="mr-3 w-6 h-6" />
+                {isSubmitting ? (uploadProgress || "SUBMITTING...").toUpperCase() : "SUBMIT REPORT"}
               </Button>
 
-              <p className="text-xs text-muted-foreground text-center">
+              <p className="text-[10px] font-bold text-foreground/40 text-center uppercase tracking-widest">
                 By submitting, you agree to our terms of use. False reports may face legal action.
               </p>
             </div>

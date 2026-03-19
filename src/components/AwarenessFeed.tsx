@@ -61,7 +61,7 @@ const AwarenessFeed = () => {
   }
 
   return (
-    <section id="awareness" className="py-24 bg-background">
+    <section id="awareness" className="py-24 bg-white border-b-4 border-foreground">
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -70,19 +70,19 @@ const AwarenessFeed = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-destructive/10 text-destructive text-sm mb-6">
+          <div className="inline-flex items-center gap-2 px-6 py-2 border-2 border-foreground bg-destructive text-white font-bold uppercase text-sm mb-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             <AlertTriangle className="w-4 h-4" />
-            <span>Community Awareness</span>
+            <span>COMMUNITY AWARENESS</span>
           </div>
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Flagged Accounts
+          <h2 className="font-display text-5xl md:text-6xl font-black text-foreground mb-4 uppercase tracking-tighter">
+            FLAGGED ACCOUNTS
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          <p className="text-foreground font-bold text-lg max-w-2xl mx-auto uppercase tracking-tight">
             Admin-confirmed flagged usernames. Stay alert and protect yourself.
           </p>
         </motion.div>
 
-        <div className="max-w-4xl mx-auto space-y-4">
+        <div className="max-w-4xl mx-auto space-y-6">
           {accounts.map((account, index) => (
             <motion.div
               key={account.id}
@@ -90,29 +90,29 @@ const AwarenessFeed = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: index * 0.08 }}
-              className="bg-card rounded-xl p-5 card-shadow border border-border flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-accent/40 transition-colors"
+              className="brutalist-card p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-6 hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] transition-all bg-white"
             >
-              <div className="flex items-center gap-4 min-w-0">
-                <div className="w-10 h-10 rounded-full bg-destructive/10 flex items-center justify-center shrink-0">
-                  <AlertTriangle className="w-5 h-5 text-destructive" />
+              <div className="flex items-center gap-5 min-w-0">
+                <div className="w-12 h-12 border-2 border-foreground bg-destructive/10 flex items-center justify-center shrink-0 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                  <AlertTriangle className="w-6 h-6 text-destructive" />
                 </div>
                 <div className="min-w-0">
-                  <p className="font-display font-semibold text-foreground truncate">{account.username}</p>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <p className="font-display text-xl font-black text-foreground truncate uppercase">{account.username}</p>
+                  <div className="flex items-center gap-2 text-sm font-bold text-foreground/60 uppercase tracking-tight">
                     <span>{account.platform}</span>
                     <span>·</span>
-                    <Clock className="w-3 h-3" />
+                    <Clock className="w-4 h-4" />
                     <span>{account.date}</span>
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 shrink-0">
-                <span className={`px-3 py-1 rounded-full text-xs font-medium ${categoryColor[account.category] ?? "bg-muted text-muted-foreground"}`}>
+              <div className="flex items-center gap-4 shrink-0">
+                <span className={`px-4 py-1 border-2 border-foreground font-black text-xs uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${categoryColor[account.category]?.replace('/10', '') ?? "bg-muted text-muted-foreground"}`}>
                   {account.category}
                 </span>
-                <span className="text-sm text-muted-foreground whitespace-nowrap">
-                  {account.reportCount} reports
+                <span className="text-sm font-black text-foreground uppercase tracking-tight">
+                  {account.reportCount} REPORTS
                 </span>
               </div>
             </motion.div>
@@ -124,7 +124,7 @@ const AwarenessFeed = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.5 }}
-          className="text-center text-xs text-muted-foreground mt-8 max-w-xl mx-auto"
+          className="text-center text-xs font-bold text-foreground/40 mt-12 max-w-xl mx-auto uppercase tracking-widest"
         >
           Usernames are displayed for awareness only. This list does not constitute an accusation.
           All reports are community-submitted and confirmed by admin review.
