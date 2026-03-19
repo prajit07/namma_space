@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Shield, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,14 +12,14 @@ const Header = () => {
       <div className="container">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <a href="/" className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-2">
             <div className="w-10 h-10 rounded-lg accent-gradient flex items-center justify-center">
               <Shield className="w-5 h-5 text-accent-foreground" />
             </div>
             <span className="font-display text-xl font-bold text-foreground">
               Namma Space
             </span>
-          </a>
+          </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8">
@@ -38,7 +39,10 @@ const Header = () => {
 
           {/* CTA */}
           <div className="hidden md:block">
-            <Button className="accent-gradient text-accent-foreground">
+            <Button 
+              className="accent-gradient text-accent-foreground"
+              onClick={() => document.getElementById("report-form")?.scrollIntoView({ behavior: "smooth" })}
+            >
               Report Now
             </Button>
           </div>

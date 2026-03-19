@@ -15,6 +15,7 @@ const ReportForm = () => {
   const [uploadedFiles, setUploadedFiles] = useState<string[]>([]);
   const [username, setUsername] = useState("");
   const [platform, setPlatform] = useState("");
+  const [category, setCategory] = useState("Scam / Fraud");
   const [description, setDescription] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -71,7 +72,7 @@ const ReportForm = () => {
     const result = await addReport({
       username: username.startsWith("@") ? username : `@${username}`,
       platform,
-      category: "Pending Review",
+      category,
       description,
       isAnonymous,
       email: isAnonymous ? undefined : email,
@@ -139,6 +140,25 @@ const ReportForm = () => {
               <div className="space-y-2">
                 <Label htmlFor="platform" className="text-foreground font-medium">Platform *</Label>
                 <Input id="platform" placeholder="e.g., Instagram, Twitter, Facebook" required className="h-12" value={platform} onChange={(e) => setPlatform(e.target.value)} />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="category" className="text-foreground font-medium">Category *</Label>
+                <select 
+                  id="category" 
+                  value={category} 
+                  onChange={(e) => setCategory(e.target.value)}
+                  className="w-full h-12 px-3 rounded-md border border-input bg-background text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                >
+                  <option value="Scam / Fraud">Scam / Fraud</option>
+                  <option value="Harassment">Harassment</option>
+                  <option value="Phishing">Phishing</option>
+                  <option value="Impersonation">Impersonation</option>
+                  <option value="Spam">Spam</option>
+                  <option value="Cyberbullying">Cyberbullying</option>
+                  <option value="Financial Fraud">Financial Fraud</option>
+                  <option value="Romance Scam">Romance Scam</option>
+                </select>
               </div>
 
               <div className="space-y-2">

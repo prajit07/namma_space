@@ -1,4 +1,5 @@
 import { Shield, Heart } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -52,19 +53,19 @@ const Footer = () => {
             </h4>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors">
+                <Link to="/privacy" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors">
                   Privacy Policy
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors">
+                <Link to="/terms" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors">
                   Terms of Use
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors">
+                <Link to="/disclaimer" className="text-primary-foreground/60 hover:text-primary-foreground transition-colors">
                   Disclaimer
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

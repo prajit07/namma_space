@@ -54,6 +54,7 @@ const HeroSection = () => {
             <Button
               size="lg"
               className="accent-gradient text-accent-foreground px-8 py-6 text-lg font-semibold animate-pulse-glow"
+              onClick={() => document.getElementById("report-form")?.scrollIntoView({ behavior: "smooth" })}
             >
               Report an Incident
               <ArrowRight className="ml-2 w-5 h-5" />
@@ -62,6 +63,7 @@ const HeroSection = () => {
               size="lg"
               variant="outline"
               className="border-white/30 text-primary-foreground hover:bg-white/10 px-8 py-6 text-lg"
+              onClick={() => document.getElementById("workflow")?.scrollIntoView({ behavior: "smooth" })}
             >
               Learn More
             </Button>
