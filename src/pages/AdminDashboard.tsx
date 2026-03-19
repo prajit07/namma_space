@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Shield, AlertTriangle, FileText, TrendingUp, LogOut, Clock, BarChart3, PieChart, RefreshCw } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart as RPieChart, Pie, Cell, LineChart, Line } from "recharts";
@@ -29,6 +30,8 @@ const CATEGORY_COLORS: Record<string, string> = {
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const [reports, setReports] = useState<Report[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterCategory, setFilterCategory] = useState("All");
 
   const loadReports = async () => setReports(await getReports());
 
@@ -63,6 +66,13 @@ const AdminDashboard = () => {
   const dateMap = new Map<string, number>();
   reports.forEach((r) => dateMap.set(r.date, (dateMap.get(r.date) || 0) + r.reportCount));
   const trendData = Array.from(dateMap, ([date, reports]) => ({ date, reports })).sort((a, b) => a.date.localeCompare(b.date)).slice(-8);
+
+  const filteredReports = reports.filter((report) => {
+    const matchesSearch = report.username.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                         report.platform.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = filterCategory === "All" || report.category === filterCategory;
+    return matchesSearch && matchesCategory;
+  });
 
   return (
     <div className="min-h-screen bg-background">
@@ -170,9 +180,34 @@ const AdminDashboard = () => {
 
         {/* Reports Table */}
         <Card>
-          <CardHeader>
-            <CardTitle className="text-base">All Reports ({reports.length})</CardTitle>
-            <CardDescription>Community-reported accounts — newest first</CardDescription>
+          <CardHeader className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <CardTitle className="text-base">All Reports ({filteredReports.length})</CardTitle>
+              <CardDescription>Community-reported accounts — newest first</CardDescription>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Input 
+                placeholder="Search username/platform..." 
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full sm:w-64"
+              />
+              <select 
+                value={filterCategory}
+                onChange={(e) => setFilterCategory(e.target.value)}
+                className="h-10 px-3 rounded-md border border-input bg-background text-sm ring-offset-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+              >
+                <option value="All">All Categories</option>
+                <option value="Scam / Fraud">Scam / Fraud</option>
+                <option value="Harassment">Harassment</option>
+                <option value="Phishing">Phishing</option>
+                <option value="Impersonation">Impersonation</option>
+                <option value="Spam">Spam</option>
+                <option value="Cyberbullying">Cyberbullying</option>
+                <option value="Financial Fraud">Financial Fraud</option>
+                <option value="Romance Scam">Romance Scam</option>
+              </select>
+            </div>
           </CardHeader>
           <CardContent>
             <Table>
@@ -189,7 +224,7 @@ const AdminDashboard = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {reports.map((report) => (
+                {filteredReports.map((report) => (
                   <TableRow key={report.id}>
                     <TableCell className="font-medium text-foreground">{report.username}</TableCell>
                     <TableCell>{report.platform}</TableCell>
