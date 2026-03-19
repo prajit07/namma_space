@@ -75,10 +75,10 @@ const ResourcesSection = () => {
               <div className="w-14 h-14 border-2 border-foreground bg-white flex items-center justify-center mb-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                 <resource.icon className="w-8 h-8 text-foreground" />
               </div>
-              <h3 className="font-display text-lg font-black mb-1 uppercase tracking-tight">
+              <h3 className="font-display text-base font-black mb-1 uppercase tracking-tight truncate">
                 {resource.title}
               </h3>
-              <p className="text-4xl font-black mb-4 uppercase leading-none">
+              <p className={`font-black mb-4 uppercase leading-none break-all ${resource.value.length > 15 ? 'text-2xl' : 'text-4xl'}`}>
                 {resource.value}
               </p>
               <p className="text-sm font-bold opacity-80 mb-6 uppercase tracking-tight leading-tight">
