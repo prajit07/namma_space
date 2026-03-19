@@ -72,8 +72,8 @@ const Footer = () => {
         </div>
 
         <div className="border-t-2 border-white/20 pt-10 flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden">
-          <p className="text-white/40 text-xs font-black uppercase tracking-widest">
-            © 2025 NAMMA SPACE | DIGITAL SAFETY FOR ALL
+          <p className="text-white/40 text-[10px] font-black uppercase tracking-[0.2em]">
+            © 2026 NAMMA SPACE | DEFENDING THE DIGITAL FRONTIER
           </p>
           <p className="text-white/40 text-xs font-black uppercase tracking-widest flex items-center gap-2">
             MADE WITH <Heart className="w-4 h-4 text-destructive fill-current" /> FOR A SAFER INTERNET
