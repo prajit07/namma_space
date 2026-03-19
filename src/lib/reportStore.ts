@@ -39,8 +39,8 @@ export async function getReports(): Promise<Report[]> {
   // Format Supabase camelCase/snake_case mapping if needed
   return (data || []).map((row) => ({
     ...row,
-    reportCount: row.report_count,
-    isAnonymous: row.is_anonymous,
+    reportCount: row.report_count ?? 1,
+    isAnonymous: row.is_anonymous ?? true,
   })) as Report[];
 }
 
@@ -114,7 +114,25 @@ export async function getConfirmedReports(): Promise<Report[]> {
   
   return (data || []).map((row) => ({
     ...row,
-    reportCount: row.report_count,
-    isAnonymous: row.is_anonymous,
+    reportCount: row.report_count ?? 1,
+    isAnonymous: row.is_anonymous ?? true,
   })) as Report[];
+}
+
+/**
+ * Clear all reports from Supabase.
+ */
+export async function clearAllReports(): Promise<boolean> {
+  if (!import.meta.env.VITE_SUPABASE_URL) return false;
+
+  const { error } = await supabase
+    .from('reports')
+    .delete()
+    .neq('id', 0); // Delete all rows where id != 0 (standard way to delete all in Supabase)
+
+  if (error) {
+    console.error("Error clearing reports:", error);
+    return false;
+  }
+  return true;
 }

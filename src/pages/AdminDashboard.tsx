@@ -7,9 +7,9 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart as RPieChart, Pie, Cell, LineChart, Line } from "recharts";
-import { getReports, updateReportStatus, type Report } from "@/lib/reportStore";
+import { getReports, updateReportStatus, clearAllReports, type Report } from "@/lib/reportStore";
 import { toast } from "sonner";
-import { CheckCircle, XCircle } from "lucide-react";
+import { CheckCircle, XCircle, Undo2, Trash2 } from "lucide-react";
 
 const statusColor: Record<string, string> = {
   "Under Review": "bg-yellow-100 text-yellow-800 border-yellow-200",
@@ -57,6 +57,18 @@ const AdminDashboard = () => {
     navigate("/prajit07");
   };
 
+  const handleClearAll = async () => {
+    if (window.confirm("Are you sure you want to clear ALL reports? This action cannot be undone.")) {
+      const success = await clearAllReports();
+      if (success) {
+        toast.success("All reports have been cleared.");
+        loadReports();
+      } else {
+        toast.error("Failed to clear reports.");
+      }
+    }
+  };
+
   const totalReports = reports.reduce((sum, r) => sum + (r.reportCount || 1), 0);
   const confirmedCount = reports.filter((r) => r.status === "Confirmed").length;
   const underReviewCount = reports.filter((r) => r.status === "Under Review" || r.status === "Pending Review").length;
@@ -97,6 +109,9 @@ const AdminDashboard = () => {
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" onClick={loadReports} className="text-muted-foreground">
               <RefreshCw className="w-4 h-4 mr-2" /> Refresh
+            </Button>
+            <Button variant="destructive" size="sm" onClick={handleClearAll} className="bg-destructive/10 text-destructive hover:bg-destructive opacity-80 hover:opacity-100 transition-all">
+              <Trash2 className="w-4 h-4 mr-2" /> Clear All
             </Button>
             <Button variant="ghost" size="sm" onClick={handleLogout} className="text-muted-foreground hover:text-foreground">
               <LogOut className="w-4 h-4 mr-2" /> Logout
@@ -267,8 +282,8 @@ const AdminDashboard = () => {
                     </TableCell>
                     <TableCell className="text-muted-foreground">{report.date}</TableCell>
                     <TableCell className="text-right">
-                      {report.status !== "Confirmed" && report.status !== "Dismissed" ? (
-                        <div className="flex items-center justify-end gap-1">
+                      <div className="flex items-center justify-end gap-1">
+                        {report.status !== "Confirmed" && (
                           <Button
                             size="sm"
                             variant="ghost"
@@ -276,11 +291,13 @@ const AdminDashboard = () => {
                             onClick={async () => {
                               await updateReportStatus(report.id, "Confirmed");
                               await loadReports();
-                              toast.success(`${report.username} confirmed — now visible on homepage`);
+                              toast.success(`${report.username} confirmed`);
                             }}
                           >
                             <CheckCircle className="w-4 h-4 mr-1" /> Approve
                           </Button>
+                        )}
+                        {report.status !== "Dismissed" && (
                           <Button
                             size="sm"
                             variant="ghost"
@@ -293,10 +310,22 @@ const AdminDashboard = () => {
                           >
                             <XCircle className="w-4 h-4 mr-1" /> Dismiss
                           </Button>
-                        </div>
-                      ) : (
-                        <span className="text-xs text-muted-foreground italic">{report.status}</span>
-                      )}
+                        )}
+                        {(report.status === "Confirmed" || report.status === "Dismissed") && (
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            className="h-8 px-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                            onClick={async () => {
+                              await updateReportStatus(report.id, "Pending Review");
+                              await loadReports();
+                              toast.info(`${report.username} reverted to pending`);
+                            }}
+                          >
+                            <Undo2 className="w-4 h-4 mr-1" /> Revert
+                          </Button>
+                        )}
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}
