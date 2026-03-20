@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Upload, Send, Shield, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 import { addReport } from "@/lib/reportStore";
 import { supabase } from "@/lib/supabase";
+import { useSearchParams } from "react-router-dom";
 
 const ReportForm = () => {
   const [isAnonymous, setIsAnonymous] = useState(true);
@@ -23,6 +24,20 @@ const ReportForm = () => {
   const [uploadProgress, setUploadProgress] = useState("");
   const [actualFiles, setActualFiles] = useState<File[]>([]);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    const target = searchParams.get("target");
+    const platformParam = searchParams.get("platform");
+    
+    if (target) {
+      setUsername(target);
+      setCategory("Harassment"); // Default to harassment when reported from chat
+    }
+    if (platformParam) {
+      setPlatform(platformParam);
+    }
+  }, [searchParams]);
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;

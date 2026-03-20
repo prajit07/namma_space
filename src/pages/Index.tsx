@@ -22,6 +22,7 @@ const Index = () => {
         </section>
         <AwarenessFeed />
         <ChatApplication />
+
         <CyberSafetyTips />
         <section id="resources">
           <ResourcesSection />
