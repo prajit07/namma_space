@@ -1,6 +1,6 @@
-# 🛡️ Namma Space
+# 🛡️ Namma Community
 
-**Namma Space** is a community-driven digital safety platform built to crowdsource, track, and raise awareness about online harassment, scams, and cyber threats. It empowers communities to report malicious accounts across platforms and offers educational resources to promote cyber hygiene.
+**Namma Community** is a community-driven digital safety platform built to crowdsource, track, and raise awareness about online harassment, scams, and cyber threats. It empowers communities to report malicious accounts across platforms and offers educational resources to promote cyber hygiene.
 
 ![Namma Space Banner](./public/og-image.png) *(Note: Replace with your actual banner if you have one)*
 

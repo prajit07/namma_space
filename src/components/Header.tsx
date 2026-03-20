@@ -17,7 +17,7 @@ const Header = () => {
               <Shield className="w-6 h-6 text-primary-foreground" />
             </div>
             <span className="font-display text-2xl font-bold text-foreground">
-              NAMMA SPACE
+              NAMMA COMMUNITY
             </span>
           </Link>
 
@@ -29,9 +29,9 @@ const Header = () => {
             <a href="#safety-tips" className="font-bold uppercase tracking-tight hover:text-secondary transition-colors">
               Safety Guides
             </a>
-            <a href="#report-form" className="font-bold uppercase tracking-tight hover:text-destructive transition-colors">
+            <Link to="/report" className="font-bold uppercase tracking-tight hover:text-destructive transition-colors">
               Report
-            </a>
+            </Link>
             <a href="#resources" className="font-bold uppercase tracking-tight hover:text-accent transition-colors">
               Resources
             </a>
@@ -39,12 +39,11 @@ const Header = () => {
 
           {/* CTA */}
           <div className="hidden md:block">
-            <Button 
-              className="brutalist-button safety-orange"
-              onClick={() => document.getElementById("report-form")?.scrollIntoView({ behavior: "smooth" })}
-            >
-              REPORT NOW
-            </Button>
+            <Link to="/report">
+              <Button className="brutalist-button safety-orange">
+                REPORT NOW
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -71,14 +70,13 @@ const Header = () => {
             <nav className="flex flex-col gap-4">
               <a href="#workflow" className="font-bold uppercase py-2 border-b-2 border-muted" onClick={() => setIsMenuOpen(false)}>How It Works</a>
               <a href="#safety-tips" className="font-bold uppercase py-2 border-b-2 border-muted" onClick={() => setIsMenuOpen(false)}>Safety Guides</a>
-              <a href="#report-form" className="font-bold uppercase py-2 border-b-2 border-muted" onClick={() => setIsMenuOpen(false)}>Report</a>
+              <Link to="/report" className="font-bold uppercase py-2 border-b-2 border-muted" onClick={() => setIsMenuOpen(false)}>Report</Link>
               <a href="#resources" className="font-bold uppercase py-2 border-b-2 border-muted" onClick={() => setIsMenuOpen(false)}>Resources</a>
-              <Button className="brutalist-button safety-orange mt-4" onClick={() => {
-                setIsMenuOpen(false);
-                document.getElementById("report-form")?.scrollIntoView({ behavior: "smooth" });
-              }}>
-                REPORT NOW
-              </Button>
+              <Link to="/report" onClick={() => setIsMenuOpen(false)}>
+                <Button className="brutalist-button safety-orange mt-4">
+                  REPORT NOW
+                </Button>
+              </Link>
             </nav>
           </motion.div>
         )}

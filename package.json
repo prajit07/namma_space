@@ -1,7 +1,6 @@
 {
-  "name": "vite_react_shadcn_ts",
-  "private": true,
-  "version": "0.0.0",
+  "name": "namma-community",
+  "description": "Namma Community - A robust platform for cybersecurity awareness and digital safety.",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -88,4 +87,3 @@
     "vitest": "^3.2.4"
   }
 }
- Broadway
