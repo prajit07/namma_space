@@ -34,7 +34,7 @@ const tips = [
 
 const CyberSafetyTips = () => {
   return (
-    <section id="safety-tips" className="py-24 bg-white border-b-4 border-foreground">
+    <section id="safety-tips" className="py-24 bg-white dark:bg-card border-b-4 border-foreground">
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

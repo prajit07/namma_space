@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
-import { AlertTriangle, Clock } from "lucide-react";
+import { AlertTriangle, Clock, Search, Filter } from "lucide-react";
 import { getConfirmedReports, type Report } from "@/lib/reportStore";
+import { Input } from "@/components/ui/input";
 
 const categoryColor: Record<string, string> = {
   "Scam / Fraud": "bg-warning/10 text-warning",
@@ -15,9 +16,35 @@ const categoryColor: Record<string, string> = {
   "Pending Review": "bg-blue-500/10 text-blue-600",
 };
 
+const categories = [
+  "All",
+  "Scam / Fraud",
+  "Harassment",
+  "Phishing",
+  "Impersonation",
+  "Spam",
+  "Cyberbullying",
+  "Financial Fraud",
+  "Romance Scam",
+];
+
 const AwarenessFeed = () => {
   const [accounts, setAccounts] = useState<Report[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const filteredAccounts = useMemo(() => {
+    return accounts.filter((account) => {
+      const matchesSearch =
+        searchQuery === "" ||
+        account.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        account.platform.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesCategory =
+        selectedCategory === "All" || account.category === selectedCategory;
+      return matchesSearch && matchesCategory;
+    });
+  }, [accounts, searchQuery, selectedCategory]);
 
   useEffect(() => {
     const fetchAccounts = async () => {
@@ -61,7 +88,7 @@ const AwarenessFeed = () => {
   }
 
   return (
-    <section id="awareness" className="py-24 bg-white border-b-4 border-foreground">
+    <section id="awareness" className="py-24 bg-white dark:bg-card border-b-4 border-foreground">
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -82,8 +109,43 @@ const AwarenessFeed = () => {
           </p>
         </motion.div>
 
+        {/* Search and Filter Controls */}
+        <div className="max-w-4xl mx-auto mb-10">
+          <div className="flex flex-col sm:flex-row gap-4">
+            <div className="relative flex-grow">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground/40" />
+              <Input
+                type="text"
+                placeholder="SEARCH BY USERNAME OR PLATFORM..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="brutalist-input h-14 pl-12 uppercase font-bold"
+              />
+            </div>
+            <div className="relative">
+              <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground/40 pointer-events-none" />
+              <select
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="h-14 pl-12 pr-6 brutalist-input bg-background font-bold uppercase w-full sm:w-auto min-w-[200px]"
+              >
+                {categories.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          {filteredAccounts.length === 0 && accounts.length > 0 && (
+            <p className="text-center text-foreground/60 font-bold uppercase tracking-tight mt-6">
+              No flagged accounts match your search.
+            </p>
+          )}
+        </div>
+
         <div className="max-w-4xl mx-auto space-y-6">
-          {accounts.map((account, index) => (
+          {filteredAccounts.map((account, index) => (
             <motion.div
               key={account.id}
               initial={{ opacity: 0, x: -20 }}
