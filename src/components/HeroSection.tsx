@@ -5,7 +5,7 @@ import ThreatLevelIndicator from "./ThreatLevelIndicator";
 
 const HeroSection = () => {
   return (
-    <section className="relative overflow-hidden min-h-[90vh] flex items-center bg-[#f0f0f0] border-b-4 border-foreground py-20">
+    <section className="relative overflow-hidden min-h-[90vh] flex items-center bg-[#f0f0f0] dark:bg-background border-b-4 border-foreground py-20">
       {/* Background geometric accents */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] border-4 border-foreground bg-secondary rotate-12" />

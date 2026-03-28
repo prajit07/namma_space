@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Shield, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import DarkModeToggle from "./DarkModeToggle";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -38,7 +39,8 @@ const Header = () => {
           </nav>
 
           {/* CTA */}
-          <div className="hidden md:block">
+          <div className="hidden md:flex items-center gap-4">
+            <DarkModeToggle />
             <Link to="/report">
               <Button className="brutalist-button safety-orange">
                 REPORT NOW
@@ -72,11 +74,14 @@ const Header = () => {
               <a href="#safety-tips" className="font-bold uppercase py-2 border-b-2 border-muted" onClick={() => setIsMenuOpen(false)}>Safety Guides</a>
               <Link to="/report" className="font-bold uppercase py-2 border-b-2 border-muted" onClick={() => setIsMenuOpen(false)}>Report</Link>
               <a href="#resources" className="font-bold uppercase py-2 border-b-2 border-muted" onClick={() => setIsMenuOpen(false)}>Resources</a>
-              <Link to="/report" onClick={() => setIsMenuOpen(false)}>
-                <Button className="brutalist-button safety-orange mt-4">
-                  REPORT NOW
-                </Button>
-              </Link>
+              <div className="flex items-center gap-4 mt-4">
+                <DarkModeToggle />
+                <Link to="/report" onClick={() => setIsMenuOpen(false)}>
+                  <Button className="brutalist-button safety-orange">
+                    REPORT NOW
+                  </Button>
+                </Link>
+              </div>
             </nav>
           </motion.div>
         )}

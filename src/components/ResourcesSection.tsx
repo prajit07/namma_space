@@ -43,7 +43,7 @@ const resources = [
 
 const ResourcesSection = () => {
   return (
-    <section id="resources" className="py-24 bg-[#f0f0f0] border-b-4 border-foreground">
+    <section id="resources" className="py-24 bg-[#f0f0f0] dark:bg-background border-b-4 border-foreground">
       <div className="container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
